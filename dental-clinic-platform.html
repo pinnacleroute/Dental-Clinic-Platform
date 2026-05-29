@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dental Care Clinic — Smart Clinic Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#0D7A6F;--teal-light:#E6F4F2;--teal-mid:#1A9E8F;--teal-dark:#085548;
+  --cream:#FAFAF7;--white:#FFFFFF;--charcoal:#1C2B2A;--muted:#6B7C7A;
+  --border:#D8E4E2;--gold:#C8963A;--gold-light:#FDF5E8;
+  --danger:#C0392B;--danger-bg:#FDF0EE;--success:#0D7A6F;--success-bg:#E6F4F2;
+  --warning:#C8963A;--warning-bg:#FDF5E8;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'DM Sans',sans-serif;
+  --radius:12px;--radius-sm:8px;--radius-lg:20px;
+  --shadow:0 2px 16px rgba(13,122,111,0.08);
+  --shadow-md:0 4px 24px rgba(13,122,111,0.12);
+}
+body{font-family:var(--font-body);background:var(--cream);color:var(--charcoal);font-size:15px;line-height:1.6}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.3}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font-body);cursor:pointer;border:none;outline:none}
+
+/* NAV */
+nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:var(--shadow)}
+.nav-inner{max-width:1280px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:36px;height:36px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nav-logo-icon svg{width:20px;height:20px;fill:white}
+.nav-logo-text{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--charcoal)}
+.nav-logo-text span{color:var(--teal)}
+.nav-tabs{display:flex;gap:4px;background:var(--cream);border-radius:var(--radius);padding:4px}
+.nav-tab{padding:7px 16px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;transition:all .2s;border:none;background:transparent}
+.nav-tab.active{background:var(--white);color:var(--teal);box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.nav-tab:hover:not(.active){color:var(--charcoal)}
+.nav-cta{background:var(--teal);color:white;padding:8px 20px;border-radius:40px;font-size:13px;font-weight:500;transition:background .2s}
+.nav-cta:hover{background:var(--teal-dark)}
+.nav-mobile{display:none}
+
+/* PAGES */
+.page{display:none;max-width:1280px;margin:0 auto;padding:2rem}
+.page.active{display:block}
+
+/* ===== PUBLIC WEBSITE ===== */
+.hero{background:linear-gradient(135deg,#0D7A6F 0%,#085548 60%,#053D33 100%);border-radius:var(--radius-lg);padding:5rem 4rem;position:relative;overflow:hidden;margin-bottom:3rem}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:rgba(255,255,255,0.04);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;left:30%;width:400px;height:400px;background:rgba(255,255,255,0.03);border-radius:50%}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9);padding:6px 14px;border-radius:40px;font-size:12px;font-weight:500;margin-bottom:1.5rem;backdrop-filter:blur(8px)}
+.hero h1{font-size:clamp(2rem,4vw,3.2rem);color:white;margin-bottom:1rem;position:relative}
+.hero h1 em{font-style:normal;color:#A8E6DE}
+.hero-sub{color:rgba(255,255,255,0.75);font-size:16px;max-width:520px;margin-bottom:2rem}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:white;color:var(--teal-dark);padding:12px 28px;border-radius:40px;font-weight:600;font-size:14px;transition:all .2s;border:2px solid transparent}
+.btn-primary:hover{background:var(--teal-light);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:white;padding:12px 28px;border-radius:40px;font-weight:500;font-size:14px;border:1.5px solid rgba(255,255,255,0.5);transition:all .2s}
+.btn-outline:hover{background:rgba(255,255,255,0.1)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;position:relative}
+.hero-stat{color:white}
+.hero-stat strong{display:block;font-size:1.8rem;font-family:var(--font-display);font-weight:600}
+.hero-stat span{font-size:12px;color:rgba(255,255,255,0.65)}
+
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:3rem}
+.service-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;transition:all .2s;cursor:pointer}
+.service-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.service-icon{width:44px;height:44px;background:var(--teal-light);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:20px}
+.service-card h3{font-size:15px;margin-bottom:6px;font-family:var(--font-display)}
+.service-card p{font-size:13px;color:var(--muted)}
+
+.doctor-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;display:grid;grid-template-columns:1fr 2fr;gap:2.5rem;align-items:center;margin-bottom:3rem}
+.doctor-img{width:160px;height:160px;background:linear-gradient(135deg,var(--teal-light),#c8ede9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:3rem;color:var(--teal);font-weight:600}
+.doctor-creds{display:flex;flex-wrap:wrap;gap:8px;margin:1rem 0}
+.cred-badge{background:var(--teal-light);color:var(--teal-dark);padding:4px 12px;border-radius:40px;font-size:12px;font-weight:500}
+.testimonials{margin-bottom:3rem}
+.section-header{margin-bottom:1.5rem}
+.section-header h2{font-size:1.8rem;margin-bottom:6px}
+.section-header p{color:var(--muted);font-size:14px}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.testi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.stars{color:var(--gold);font-size:14px;margin-bottom:10px}
+.testi-card p{font-size:14px;color:var(--muted);margin-bottom:1rem;font-style:italic}
+.testi-meta{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:36px;height:36px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--teal)}
+.testi-name{font-size:13px;font-weight:600}
+.testi-label{font-size:11px;color:var(--muted)}
+.value-section{background:linear-gradient(135deg,#053D33,#0D7A6F);border-radius:var(--radius-lg);padding:3rem;color:white;margin-bottom:2rem}
+.value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:2rem}
+.value-item{background:rgba(255,255,255,0.1);border-radius:var(--radius);padding:1.5rem;backdrop-filter:blur(8px)}
+.value-item h4{font-size:14px;margin-bottom:6px}
+.value-item p{font-size:13px;opacity:0.75}
+
+/* ===== BOOKING ===== */
+.booking-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.booking-form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem}
+.booking-form-card h2{font-size:1.5rem;margin-bottom:6px}
+.booking-form-card .sub{color:var(--muted);font-size:13px;margin-bottom:1.5rem}
+.form-row{margin-bottom:1rem}
+.form-row label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:14px;color:var(--charcoal);background:var(--cream);transition:border-color .2s}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{outline:none;border-color:var(--teal);background:white}
+.form-row textarea{resize:vertical;min-height:80px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.slot-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.slot{padding:8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:12px;text-align:center;cursor:pointer;transition:all .2s;background:white}
+.slot:hover{border-color:var(--teal);color:var(--teal)}
+.slot.selected{background:var(--teal);color:white;border-color:var(--teal)}
+.slot.taken{background:var(--cream);color:var(--muted);cursor:not-allowed;text-decoration:line-through}
+.btn-submit{width:100%;background:var(--teal);color:white;padding:13px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;transition:background .2s;margin-top:1rem}
+.btn-submit:hover{background:var(--teal-dark)}
+.booking-sidebar{display:flex;flex-direction:column;gap:1rem}
+.confirm-card{background:var(--teal-light);border:1.5px solid var(--teal);border-radius:var(--radius-lg);padding:1.5rem}
+.confirm-card h3{color:var(--teal-dark);font-size:1.1rem;margin-bottom:1rem}
+.confirm-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.confirm-row:last-child{border:none;font-weight:600;color:var(--teal-dark)}
+.confirm-success{background:var(--success-bg);border:1.5px solid var(--teal);border-radius:var(--radius);padding:1rem;margin-top:1rem;display:none;text-align:center}
+.confirm-success .check{width:44px;height:44px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:20px;color:white}
+.info-cards{display:flex;flex-direction:column;gap:12px}
+.info-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.info-card h4{font-size:13px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.info-card p{font-size:12px;color:var(--muted)}
+
+/* ===== ADMIN ===== */
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.admin-header h2{font-size:1.6rem}
+.admin-date{font-size:13px;color:var(--muted)}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem;margin-bottom:1.5rem}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;position:relative;overflow:hidden}
+.kpi::after{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--teal)}
+.kpi.danger::after{background:var(--danger)}
+.kpi.warning::after{background:var(--warning)}
+.kpi.gold::after{background:var(--gold)}
+.kpi-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.kpi-val{font-size:2rem;font-family:var(--font-display);font-weight:600;color:var(--charcoal);line-height:1}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.kpi-trend{position:absolute;top:1rem;right:1rem;font-size:11px;font-weight:600}
+.kpi-trend.up{color:var(--success)}
+.kpi-trend.down{color:var(--danger)}
+.admin-tabs{display:flex;gap:4px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:4px;margin-bottom:1.5rem;width:fit-content}
+.admin-tab{padding:7px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:transparent;transition:all .2s}
+.admin-tab.active{background:var(--teal);color:white}
+.admin-section{display:none}
+.admin-section.active{display:block}
+.data-table{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-header{display:grid;padding:12px 1rem;background:var(--cream);border-bottom:1px solid var(--border);font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.table-row{display:grid;padding:12px 1rem;border-bottom:1px solid var(--border);align-items:center;transition:background .15s}
+.table-row:last-child{border:none}
+.table-row:hover{background:var(--cream)}
+.appointments-table .table-header,.appointments-table .table-row{grid-template-columns:2fr 1.5fr 1.2fr 1fr auto}
+.inquiries-table .table-header,.inquiries-table .table-row{grid-template-columns:2fr 1.5fr 1.5fr 1fr auto}
+.followup-table .table-header,.followup-table .table-row{grid-template-columns:2fr 1.2fr 1.5fr 1.2fr auto}
+.status-pill{padding:3px 10px;border-radius:40px;font-size:11px;font-weight:600}
+.s-confirmed{background:#E6F4F2;color:#085548}
+.s-pending{background:var(--warning-bg);color:#7A5310}
+.s-new{background:#E8F0FE;color:#1A56DB}
+.s-followup{background:#FDF5E8;color:#7A5310}
+.s-started{background:#E6F4F2;color:#085548}
+.s-cancelled{background:var(--danger-bg);color:var(--danger)}
+.s-completed{background:#F0F4FF;color:#4B5FAD}
+.s-missed{background:var(--danger-bg);color:var(--danger)}
+.action-btn{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:transparent;color:var(--charcoal);transition:all .2s}
+.action-btn:hover{border-color:var(--teal);color:var(--teal)}
+.action-btn.danger:hover{border-color:var(--danger);color:var(--danger)}
+.patient-name{font-weight:600;font-size:13px}
+.patient-sub{font-size:11px;color:var(--muted)}
+
+/* ===== CRM ===== */
+.crm-grid{display:grid;grid-template-columns:280px 1fr;gap:1.5rem}
+.patient-list{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.patient-list-header{padding:1rem;border-bottom:1px solid var(--border);font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.patient-item{padding:12px 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.patient-item:hover,.patient-item.active{background:var(--teal-light)}
+.patient-item.active .pi-name{color:var(--teal)}
+.pi-name{font-weight:600;font-size:13px}
+.pi-meta{font-size:11px;color:var(--muted)}
+.patient-detail{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.detail-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)}
+.avatar-lg{width:56px;height:56px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-family:var(--font-display);font-weight:600;color:var(--teal);flex-shrink:0}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+.detail-field{font-size:13px}
+.detail-field .label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem}
+.tag{padding:4px 10px;border-radius:40px;font-size:11px;font-weight:600;background:var(--teal-light);color:var(--teal-dark)}
+.notes-box{background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:13px;color:var(--muted);line-height:1.7}
+.timeline{margin-top:1rem}
+.timeline-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);font-size:12px}
+.tl-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:4px;flex-shrink:0}
+.tl-date{color:var(--muted);min-width:90px}
+
+/* ===== REMINDERS ===== */
+.reminders-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.reminder-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.reminder-header{padding:12px 1rem;display:flex;justify-content:space-between;align-items:center;background:var(--cream);border-bottom:1px solid var(--border)}
+.reminder-type{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.channel-badge{font-size:10px;padding:3px 8px;border-radius:40px;font-weight:600}
+.ch-whatsapp{background:#E8FDF0;color:#1A7A40}
+.ch-sms{background:#E8F0FE;color:#1A56DB}
+.ch-email{background:var(--warning-bg);color:#7A5310}
+.msg-bubble{margin:1rem;background:var(--cream);border-radius:var(--radius-sm);padding:12px;font-size:13px;line-height:1.6;border-left:3px solid var(--teal)}
+.reminder-footer{padding:8px 1rem;font-size:11px;color:var(--muted);border-top:1px solid var(--border)}
+
+/* ===== ANALYTICS ===== */
+.analytics-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2rem}
+.a-kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;text-align:center}
+.a-kpi .num{font-size:2rem;font-family:var(--font-display);font-weight:600;color:var(--teal)}
+.a-kpi .lab{font-size:12px;color:var(--muted);margin-top:4px}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.chart-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem}
+.chart-card h3{font-size:14px;font-weight:600;margin-bottom:1.2rem}
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:12px}
+.bar-label{width:130px;color:var(--charcoal);text-align:right;flex-shrink:0}
+.bar-track{flex:1;height:22px;background:var(--cream);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-mid));border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:11px;color:white;font-weight:600;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.donut-wrap{display:flex;align-items:center;gap:1.5rem}
+.donut{width:120px;height:120px;flex-shrink:0}
+.donut-legend{display:flex;flex-direction:column;gap:8px}
+.legend-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.funnel{display:flex;flex-direction:column;gap:6px}
+.funnel-row{display:flex;align-items:center;gap:10px;font-size:12px}
+.funnel-bar{height:32px;border-radius:4px;display:flex;align-items:center;padding:0 12px;color:white;font-weight:600;font-size:12px}
+.trend-chart{height:100px;position:relative;display:flex;align-items:flex-end;gap:8px;padding-top:1rem}
+.trend-bar{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,var(--teal-mid),var(--teal));position:relative;min-height:8px}
+.trend-bar .tip{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;color:var(--teal);white-space:nowrap}
+.trend-labels{display:flex;gap:8px;margin-top:4px}
+.trend-labels span{flex:1;text-align:center;font-size:10px;color:var(--muted)}
+
+/* ===== INQUIRY ===== */
+.inquiry-split{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.form-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem}
+
+/* ===== VALUE SECTION ===== */
+.value-hero{background:var(--teal-dark);border-radius:var(--radius-lg);padding:3rem;color:white;margin-bottom:2rem}
+.value-hero h2{font-size:2rem;margin-bottom:.5rem}
+.value-hero p{opacity:.75;margin-bottom:2rem}
+.benefits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.benefit-card{background:rgba(255,255,255,0.1);border-radius:var(--radius);padding:1.5rem;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.15)}
+.benefit-icon{font-size:1.8rem;margin-bottom:10px}
+.benefit-card h4{font-size:14px;font-weight:600;margin-bottom:6px}
+.benefit-card p{font-size:12px;opacity:.75;line-height:1.6}
+.roi-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:13px}
+.roi-row:last-child{border:none}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-tabs{display:none}
+  .nav-mobile{display:block}
+  .page{padding:1rem}
+  .hero{padding:2rem 1.5rem}
+  .booking-wrap,.crm-grid,.charts-grid,.inquiry-split,.doctor-section{grid-template-columns:1fr}
+  .hero-stats{gap:1.5rem}
+  .appointments-table .table-header,.appointments-table .table-row{grid-template-columns:2fr 1.2fr 1fr}
+  .appointments-table .table-row > *:nth-child(3),.appointments-table .table-header > *:nth-child(3){display:none}
+  .inquiries-table .table-header,.inquiries-table .table-row{grid-template-columns:2fr 1.5fr 1fr}
+  .followup-table .table-header,.followup-table .table-row{grid-template-columns:2fr 1.5fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C9.2 2 7 4.2 7 7c0 1.5.6 2.9 1.6 3.9L7 22h10l-1.6-11.1C16.4 9.9 17 8.5 17 7c0-2.8-2.2-5-5-5z"/></svg>
+      </div>
+      <span class="nav-logo-text">Dental <span>Care Clinic</span></span>
+    </div>
+    <div class="nav-tabs" id="navTabs">
+      <button class="nav-tab active" onclick="showPage('website')">🌐 Website</button>
+      <button class="nav-tab" onclick="showPage('booking')">📅 Book Appointment</button>
+      <button class="nav-tab" onclick="showPage('inquiry')">💬 Patient Inquiry</button>
+      <button class="nav-tab" onclick="showPage('admin')">🏥 Admin Dashboard</button>
+      <button class="nav-tab" onclick="showPage('crm')">👥 Patient CRM</button>
+      <button class="nav-tab" onclick="showPage('reminders')">🔔 Reminders</button>
+      <button class="nav-tab" onclick="showPage('analytics')">📊 Analytics</button>
+      <button class="nav-tab" onclick="showPage('value')">💡 Business Value</button>
+    </div>
+    <select class="nav-mobile" onchange="showPage(this.value)" style="padding:8px 12px;border-radius:8px;border:1.5px solid var(--border);font-family:var(--font-body);font-size:13px;background:white">
+      <option value="website">🌐 Website</option>
+      <option value="booking">📅 Book Appointment</option>
+      <option value="inquiry">💬 Patient Inquiry</option>
+      <option value="admin">🏥 Admin Dashboard</option>
+      <option value="crm">👥 Patient CRM</option>
+      <option value="reminders">🔔 Reminders</option>
+      <option value="analytics">📊 Analytics</option>
+      <option value="value">💡 Business Value</option>
+    </select>
+    <button class="nav-cta" onclick="showPage('booking')">Book Appointment</button>
+  </div>
+</nav>
+
+<!-- ======= PUBLIC WEBSITE ======= -->
+<div class="page active" id="page-website">
+  <div class="hero">
+    <div class="hero-badge">✦ #1 Clear Aligner Clinic in the Region</div>
+    <h1>Your Perfect Smile<br>Starts with <em>Dr. Sharma</em></h1>
+    <p class="hero-sub">Advanced dental care, clear aligner treatments, and personalised smile consultations — all under one trusted roof.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('booking')">📅 Book Appointment</button>
+      <button class="btn-outline" onclick="showPage('booking')">✨ Request Smile Consultation</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>1,400+</strong><span>Happy Patients</span></div>
+      <div class="hero-stat"><strong>98%</strong><span>Satisfaction Rate</span></div>
+      <div class="hero-stat"><strong>12 Yrs</strong><span>Experience</span></div>
+      <div class="hero-stat"><strong>350+</strong><span>Aligner Cases</span></div>
+    </div>
+  </div>
+
+  <div class="section-header"><h2>Our Services</h2><p>Comprehensive dental care for the whole family</p></div>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-icon">🦷</div><h3>General Dentistry</h3><p>Routine checkups, fillings, and preventive care for lasting oral health.</p></div>
+    <div class="service-card"><div class="service-icon">😁</div><h3>Clear Aligners</h3><p>Discreet, removable aligners to straighten your smile — no metal braces.</p></div>
+    <div class="service-card"><div class="service-icon">💬</div><h3>Smile Consultation</h3><p>Free 30-min consultation to plan your perfect smile transformation.</p></div>
+    <div class="service-card"><div class="service-icon">✨</div><h3>Dental Cleaning</h3><p>Professional scaling, polishing, and tartar removal for a fresh clean feel.</p></div>
+    <div class="service-card"><div class="service-icon">💎</div><h3>Cosmetic Dentistry</h3><p>Veneers, whitening, and smile makeovers tailored to your goals.</p></div>
+    <div class="service-card"><div class="service-icon">📋</div><h3>Follow-up Care</h3><p>Structured post-treatment follow-ups to ensure lasting results.</p></div>
+  </div>
+
+  <div class="doctor-section">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1rem">
+      <div class="doctor-img">Dr. R</div>
+      <div style="text-align:center">
+        <div style="font-weight:700;font-size:16px;font-family:var(--font-display)">Dr. Sharma</div>
+        <div style="font-size:13px;color:var(--muted)">BDS, MDS – Orthodontics</div>
+      </div>
+    </div>
+    <div>
+      <p style="font-size:11px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">About the Doctor</p>
+      <h2 style="font-size:1.6rem;margin-bottom:12px">Trusted by 1,400+ Patients Across the City</h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1rem">Dr. Sharma is a specialist orthodontist and certified clear aligner provider with over 12 years of clinical experience. She has completed advanced training in digital smile design, aesthetic dentistry, and aligner technology.</p>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:1rem">As a recognised aligner speaker and mentor, she trains dentists across the country on clear aligner protocols and patient management. Her approach combines clinical precision with a warm, patient-first philosophy.</p>
+      <div class="doctor-creds">
+        <span class="cred-badge">BDS – KGMU</span>
+        <span class="cred-badge">MDS – Orthodontics</span>
+        <span class="cred-badge">Certified Aligner Provider</span>
+        <span class="cred-badge">Digital Smile Design</span>
+        <span class="cred-badge">Aligner Mentor & Speaker</span>
+        <span class="cred-badge">12+ Yrs Experience</span>
+      </div>
+      <button class="btn-primary" style="background:var(--teal);color:white;padding:10px 24px;margin-top:8px" onclick="showPage('booking')">Book a Consultation with Dr. Sharma →</button>
+    </div>
+  </div>
+
+  <div class="testimonials">
+    <div class="section-header"><h2>Patient Stories</h2><p>What our patients say about their experience</p></div>
+    <div class="testimonials-grid">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"My aligner treatment was the best decision I made this year. Dr. Sharma explained every step clearly and the results are incredible. My confidence has completely changed."</p>
+        <div class="testi-meta"><div class="testi-avatar">PS</div><div><div class="testi-name">Priya Sharma</div><div class="testi-label">Clear Aligner Patient · Lucknow</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"The smile consultation was eye-opening. The team was professional, the clinic was spotless, and the digital plan they showed me made me feel so comfortable proceeding."</p>
+        <div class="testi-meta"><div class="testi-avatar">RK</div><div><div class="testi-name">Rahul Kapoor</div><div class="testi-label">Smile Makeover Patient · Kanpur</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Finally a dentist who takes time to listen. Dr. Sharma is genuinely caring. My cleaning and whitening were painless and the follow-up reminders were super helpful."</p>
+        <div class="testi-meta"><div class="testi-avatar">AT</div><div><div class="testi-name">Ananya Trivedi</div><div class="testi-label">Cosmetic Dentistry Patient · Agra</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"Used the online booking system — so easy and convenient. Got a reminder before my appointment and the whole experience was seamless. Highly recommend Dental Care Clinic."</p>
+        <div class="testi-meta"><div class="testi-avatar">SM</div><div><div class="testi-name">Sahil Mehta</div><div class="testi-label">General Dentistry Patient · Delhi</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"As a dentist myself, I refer my most complex aligner cases to Dr. Sharma. Her knowledge, protocols, and patient outcomes are exceptional. Truly the best in the field."</p>
+        <div class="testi-meta"><div class="testi-avatar">VJ</div><div><div class="testi-name">Dr. Vikram Joshi</div><div class="testi-label">Referring Dentist · Varanasi</div></div></div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <p>"The platform made it so easy to stay on top of my aligner progress. The check-in reminders and post-appointment follow-ups felt personal, not automated."</p>
+        <div class="testi-meta"><div class="testi-avatar">ND</div><div><div class="testi-name">Neha Dixit</div><div class="testi-label">Aligner Patient · Kanpur</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center;margin-bottom:2rem">
+    <h2 style="font-size:1.8rem;margin-bottom:10px">Ready to Transform Your Smile?</h2>
+    <p style="color:var(--muted);margin-bottom:1.5rem;max-width:480px;margin-left:auto;margin-right:auto">Book a free smile consultation today. Our team will guide you through the best treatment options personalised for your goals.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" style="background:var(--teal);color:white" onclick="showPage('booking')">📅 Book Free Consultation</button>
+      <button class="btn-outline" style="border-color:var(--teal);color:var(--teal)" onclick="showPage('inquiry')">💬 Send Inquiry</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======= BOOKING ======= -->
+<div class="page" id="page-booking">
+  <div style="margin-bottom:1.5rem"><h2 style="font-size:1.8rem">Book an Appointment</h2><p style="color:var(--muted);font-size:14px">Select your service, choose a slot, and we'll confirm your booking instantly.</p></div>
+  <div class="booking-wrap">
+    <div class="booking-form-card">
+      <h2>Appointment Details</h2>
+      <p class="sub">Fill in your details to secure your slot</p>
+      <div class="form-grid">
+        <div class="form-row"><label>First Name</label><input type="text" placeholder="Arjun" id="bk-fname"></div>
+        <div class="form-row"><label>Last Name</label><input type="text" placeholder="Verma" id="bk-lname"></div>
+      </div>
+      <div class="form-grid">
+        <div class="form-row"><label>Mobile Number</label><input type="text" placeholder="+91 98765 43210" id="bk-phone"></div>
+        <div class="form-row"><label>Email Address</label><input type="email" placeholder="arjun@email.com" id="bk-email"></div>
+      </div>
+      <div class="form-row"><label>Service Type</label>
+        <select id="bk-service" onchange="updateBookingPreview()">
+          <option value="">Select a service…</option>
+          <option>Clear Aligner Consultation</option>
+          <option>General Checkup & Cleaning</option>
+          <option>Smile Consultation (Free)</option>
+          <option>Cosmetic Dentistry Consult</option>
+          <option>Teeth Whitening</option>
+          <option>Follow-up Care</option>
+          <option>Dental Cleaning Only</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Preferred Date</label><input type="date" id="bk-date" onchange="updateBookingPreview()"></div>
+      <div class="form-row"><label>Select Time Slot</label>
+        <div class="slot-picker" id="slotPicker">
+          <div class="slot taken">9:00 AM</div>
+          <div class="slot" onclick="selectSlot(this,'9:30 AM')">9:30 AM</div>
+          <div class="slot taken">10:00 AM</div>
+          <div class="slot" onclick="selectSlot(this,'10:30 AM')">10:30 AM</div>
+          <div class="slot" onclick="selectSlot(this,'11:00 AM')">11:00 AM</div>
+          <div class="slot taken">11:30 AM</div>
+          <div class="slot" onclick="selectSlot(this,'12:00 PM')">12:00 PM</div>
+          <div class="slot" onclick="selectSlot(this,'3:00 PM')">3:00 PM</div>
+          <div class="slot" onclick="selectSlot(this,'3:30 PM')">3:30 PM</div>
+          <div class="slot taken">4:00 PM</div>
+          <div class="slot" onclick="selectSlot(this,'4:30 PM')">4:30 PM</div>
+          <div class="slot" onclick="selectSlot(this,'5:00 PM')">5:00 PM</div>
+        </div>
+      </div>
+      <div class="form-row"><label>Consultation Type</label>
+        <select id="bk-consult">
+          <option>In-Clinic Visit</option>
+          <option>Video Consultation</option>
+          <option>Phone Consultation</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Describe Your Concern</label><textarea id="bk-concern" placeholder="e.g. My teeth are slightly crooked and I want to explore aligner options. I also have some tooth sensitivity…"></textarea></div>
+      <button class="btn-submit" onclick="submitBooking()">✅ Confirm Appointment</button>
+    </div>
+    <div class="booking-sidebar">
+      <div class="confirm-card" id="bookingPreview">
+        <h3>📋 Booking Summary</h3>
+        <div class="confirm-row"><span>Clinic</span><span>Dental Care Clinic</span></div>
+        <div class="confirm-row"><span>Doctor</span><span>Dr. Sharma</span></div>
+        <div class="confirm-row" id="prev-service"><span>Service</span><span style="color:var(--muted)">Not selected</span></div>
+        <div class="confirm-row" id="prev-date"><span>Date</span><span style="color:var(--muted)">Not selected</span></div>
+        <div class="confirm-row" id="prev-slot"><span>Time</span><span style="color:var(--muted)">Not selected</span></div>
+        <div class="confirm-row"><span>Confirmation</span><span>WhatsApp + SMS</span></div>
+      </div>
+      <div class="confirm-success" id="bookingSuccess">
+        <div class="check">✓</div>
+        <div style="font-size:1rem;font-weight:700;font-family:var(--font-display);color:var(--teal);margin-bottom:6px">Appointment Confirmed!</div>
+        <div style="font-size:13px;color:var(--muted)">A confirmation has been sent to your mobile and email. Dr. Sharma's team will call you within 1 hour to confirm.</div>
+      </div>
+      <div class="info-cards">
+        <div class="info-card"><h4>📍 Clinic Address</h4><p>12, Swaroop Nagar, Near City Mall, Kanpur, UP – 208002</p></div>
+        <div class="info-card"><h4>⏰ Clinic Hours</h4><p>Mon–Sat: 9:00 AM – 7:00 PM<br>Sunday: 10:00 AM – 1:00 PM</p></div>
+        <div class="info-card"><h4>📞 Quick Contact</h4><p>+91 98765 00000<br>info@dentalcareclinic.com</p></div>
+        <div class="info-card"><h4>✅ What to Bring</h4><p>Govt. ID, previous X-rays (if any), and list of current medications. For aligner consult, no preparation needed.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= INQUIRY ======= -->
+<div class="page" id="page-inquiry">
+  <div style="margin-bottom:1.5rem"><h2 style="font-size:1.8rem">Patient Inquiry</h2><p style="color:var(--muted);font-size:14px">New to the clinic? Share your details and we'll get back to you within 2 hours.</p></div>
+  <div class="inquiry-split">
+    <div class="form-card">
+      <h3 style="font-size:1.2rem;margin-bottom:.25rem">Send Us a Message</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:1.5rem">No obligation — just let us know what you're looking for.</p>
+      <div class="form-row"><label>Full Name</label><input type="text" placeholder="Kavya Nair"></div>
+      <div class="form-grid">
+        <div class="form-row"><label>Phone</label><input type="text" placeholder="+91 90000 12345"></div>
+        <div class="form-row"><label>Email</label><input type="email" placeholder="kavya@gmail.com"></div>
+      </div>
+      <div class="form-row"><label>Treatment Interest</label>
+        <select>
+          <option value="">What are you interested in?</option>
+          <option>Clear Aligners / Braces</option>
+          <option>Smile Makeover</option>
+          <option>Teeth Whitening</option>
+          <option>Dental Cleaning</option>
+          <option>General Checkup</option>
+          <option>Cosmetic Dentistry</option>
+          <option>Follow-up Care</option>
+          <option>Other / Not sure yet</option>
+        </select>
+      </div>
+      <div class="form-row"><label>Preferred Consultation Mode</label>
+        <select>
+          <option>In-Clinic Visit</option>
+          <option>Video Call (Zoom/Google Meet)</option>
+          <option>Phone Call</option>
+          <option>WhatsApp Message</option>
+        </select>
+      </div>
+      <div class="form-row"><label>How did you hear about us?</label>
+        <select><option>Google Search</option><option>Instagram / Facebook</option><option>Friend / Family Referral</option><option>Dentist Referral</option><option>YouTube</option><option>Other</option></select>
+      </div>
+      <div class="form-row"><label>Your Message</label><textarea placeholder="Tell us a bit about your concern or what you're looking for..."></textarea></div>
+      <button class="btn-submit" onclick="this.textContent='✅ Inquiry Received! We\'ll contact you shortly.'">Submit Inquiry</button>
+    </div>
+    <div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem">
+        <h3 style="font-size:1rem;margin-bottom:1rem;font-family:var(--font-display)">Recent Inquiries (Admin View)</h3>
+        <div class="data-table inquiries-table">
+          <div class="table-header"><span>Patient</span><span>Interest</span><span>Source</span><span>Status</span><span></span></div>
+          <div class="table-row"><div><div class="patient-name">Kavya Nair</div><div class="patient-sub">+91 90000 12345</div></div><span>Clear Aligners</span><span>Instagram</span><span class="status-pill s-new">New Lead</span><button class="action-btn">Assign</button></div>
+          <div class="table-row"><div><div class="patient-name">Devraj Pillai</div><div class="patient-sub">+91 91234 56789</div></div><span>Smile Makeover</span><span>Google</span><span class="status-pill s-followup">Follow-up</span><button class="action-btn">Call</button></div>
+          <div class="table-row"><div><div class="patient-name">Sonal Gupta</div><div class="patient-sub">+91 98888 77665</div></div><span>Whitening</span><span>Referral</span><span class="status-pill s-confirmed">Booked</span><button class="action-btn">View</button></div>
+          <div class="table-row"><div><div class="patient-name">Aakash Iyer</div><div class="patient-sub">+91 77889 90011</div></div><span>General Checkup</span><span>Instagram</span><span class="status-pill s-new">New Lead</span><button class="action-btn">Assign</button></div>
+        </div>
+      </div>
+      <div style="background:var(--teal-light);border:1.5px solid var(--teal);border-radius:var(--radius);padding:1.5rem">
+        <h4 style="color:var(--teal-dark);margin-bottom:10px">💡 Lead Capture Insight</h4>
+        <p style="font-size:13px;color:var(--muted)">This form feeds directly into the Admin CRM. Each inquiry is tagged with source, treatment interest, and status — so the team can prioritise and follow up without missing a lead.</p>
+        <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;font-size:13px">
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">Avg. response time with system:</span><strong style="color:var(--teal)">< 2 hours</strong></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">Leads converted to bookings:</span><strong style="color:var(--teal)">68%</strong></div>
+          <div style="display:flex;justify-content:space-between"><span style="color:var(--muted)">Without digital system:</span><strong style="color:var(--danger)">~30% follow-up rate</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= ADMIN ======= -->
+<div class="page" id="page-admin">
+  <div class="admin-header">
+    <div><h2>Admin Dashboard</h2><p class="admin-date">Friday, 30 May 2025 · Dental Care Clinic, Kanpur</p></div>
+    <div style="display:flex;gap:8px">
+      <button class="action-btn" style="font-size:13px;padding:8px 16px">📥 Export</button>
+      <button class="action-btn" style="background:var(--teal);color:white;border-color:var(--teal);font-size:13px;padding:8px 16px">+ New Appointment</button>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-label">Today's Appointments</div><div class="kpi-val">8</div><div class="kpi-sub">3 confirmed · 5 pending</div><span class="kpi-trend up">↑ 2 vs yesterday</span></div>
+    <div class="kpi warning"><div class="kpi-label">New Inquiries</div><div class="kpi-val">14</div><div class="kpi-sub">This week</div><span class="kpi-trend up">↑ 5 this week</span></div>
+    <div class="kpi danger"><div class="kpi-label">Pending Follow-ups</div><div class="kpi-val">6</div><div class="kpi-sub">Overdue callbacks</div><span class="kpi-trend down">↑ 2 new</span></div>
+    <div class="kpi"><div class="kpi-label">Aligner Consultations</div><div class="kpi-val">11</div><div class="kpi-sub">This month</div><span class="kpi-trend up">↑ 3 vs last month</span></div>
+    <div class="kpi gold"><div class="kpi-label">Monthly Revenue Est.</div><div class="kpi-val">₹2.4L</div><div class="kpi-sub">Confirmed treatments</div><span class="kpi-trend up">↑ 18%</span></div>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" onclick="showAdminTab('appointments',this)">📅 Appointments</button>
+    <button class="admin-tab" onclick="showAdminTab('inquiries',this)">💬 Inquiries</button>
+    <button class="admin-tab" onclick="showAdminTab('followups',this)">🔁 Follow-ups</button>
+  </div>
+
+  <div class="admin-section active" id="admin-appointments">
+    <div class="data-table appointments-table">
+      <div class="table-header"><span>Patient</span><span>Service</span><span>Date & Time</span><span>Status</span><span>Actions</span></div>
+      <div class="table-row"><div><div class="patient-name">Priya Sharma</div><div class="patient-sub">+91 99887 76654</div></div><span style="font-size:13px">Clear Aligner Consult</span><span style="font-size:12px">Today · 10:30 AM</span><span class="status-pill s-confirmed">Confirmed</span><div style="display:flex;gap:6px"><button class="action-btn">Notes</button><button class="action-btn danger">Cancel</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Rahul Kapoor</div><div class="patient-sub">+91 88776 54321</div></div><span style="font-size:13px">Smile Consultation</span><span style="font-size:12px">Today · 11:30 AM</span><span class="status-pill s-pending">Pending</span><div style="display:flex;gap:6px"><button class="action-btn">Confirm</button><button class="action-btn">Reschedule</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Ananya Trivedi</div><div class="patient-sub">+91 77665 43210</div></div><span style="font-size:13px">Dental Cleaning</span><span style="font-size:12px">Today · 3:00 PM</span><span class="status-pill s-confirmed">Confirmed</span><div style="display:flex;gap:6px"><button class="action-btn">Notes</button><button class="action-btn danger">Cancel</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Sahil Mehta</div><div class="patient-sub">+91 99001 22334</div></div><span style="font-size:13px">General Checkup</span><span style="font-size:12px">Tomorrow · 9:30 AM</span><span class="status-pill s-confirmed">Confirmed</span><div style="display:flex;gap:6px"><button class="action-btn">Notes</button><button class="action-btn danger">Cancel</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Neha Dixit</div><div class="patient-sub">+91 98800 11223</div></div><span style="font-size:13px">Aligner Progress Check</span><span style="font-size:12px">31 May · 2:00 PM</span><span class="status-pill s-confirmed">Confirmed</span><div style="display:flex;gap:6px"><button class="action-btn">Notes</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Aakash Iyer</div><div class="patient-sub">+91 77889 90011</div></div><span style="font-size:13px">Cosmetic Consult</span><span style="font-size:12px">2 Jun · 11:00 AM</span><span class="status-pill s-pending">Pending</span><div style="display:flex;gap:6px"><button class="action-btn">Confirm</button><button class="action-btn danger">Cancel</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Meera Joshi</div><div class="patient-sub">+91 91111 00223</div></div><span style="font-size:13px">Teeth Whitening</span><span style="font-size:12px">28 May · 4:00 PM</span><span class="status-pill s-completed">Completed</span><div style="display:flex;gap:6px"><button class="action-btn">Follow-up</button></div></div>
+      <div class="table-row"><div><div class="patient-name">Vikram Nair</div><div class="patient-sub">+91 90022 11334</div></div><span style="font-size:13px">Clear Aligner Consult</span><span style="font-size:12px">27 May · 3:30 PM</span><span class="status-pill s-missed">Missed</span><div style="display:flex;gap:6px"><button class="action-btn">Callback</button><button class="action-btn">Rebook</button></div></div>
+    </div>
+  </div>
+
+  <div class="admin-section" id="admin-inquiries">
+    <div class="data-table inquiries-table">
+      <div class="table-header"><span>Lead</span><span>Treatment Interest</span><span>Source</span><span>Status</span><span>Action</span></div>
+      <div class="table-row"><div><div class="patient-name">Kavya Nair</div><div class="patient-sub">kavya@gmail.com</div></div><span style="font-size:13px">Clear Aligners</span><span style="font-size:13px">Instagram</span><span class="status-pill s-new">New</span><button class="action-btn">Assign & Call</button></div>
+      <div class="table-row"><div><div class="patient-name">Devraj Pillai</div><div class="patient-sub">devraj@email.com</div></div><span style="font-size:13px">Smile Makeover</span><span style="font-size:13px">Google</span><span class="status-pill s-followup">Follow-up Needed</span><button class="action-btn">Send Reminder</button></div>
+      <div class="table-row"><div><div class="patient-name">Sonal Gupta</div><div class="patient-sub">sonal@yahoo.com</div></div><span style="font-size:13px">Whitening</span><span style="font-size:13px">Referral – Dr. Joshi</span><span class="status-pill s-confirmed">Booked</span><button class="action-btn">View Profile</button></div>
+      <div class="table-row"><div><div class="patient-name">Aakash Iyer</div><div class="patient-sub">aakash@email.com</div></div><span style="font-size:13px">General Checkup</span><span style="font-size:13px">Instagram</span><span class="status-pill s-new">New</span><button class="action-btn">Assign & Call</button></div>
+      <div class="table-row"><div><div class="patient-name">Ritika Bansal</div><div class="patient-sub">ritika@gmail.com</div></div><span style="font-size:13px">Aligners</span><span style="font-size:13px">YouTube</span><span class="status-pill s-started">In Discussion</span><button class="action-btn">Update</button></div>
+    </div>
+  </div>
+
+  <div class="admin-section" id="admin-followups">
+    <div class="data-table followup-table">
+      <div class="table-header"><span>Patient</span><span>Last Contact</span><span>Follow-up Reason</span><span>Due Date</span><span>Action</span></div>
+      <div class="table-row"><div><div class="patient-name">Vikram Nair</div><div class="patient-sub">Missed appointment</div></div><span style="font-size:12px">27 May</span><span style="font-size:13px">Missed Appointment – Rebook</span><span style="font-size:12px;color:var(--danger)">⚠ Overdue</span><button class="action-btn">Call Now</button></div>
+      <div class="table-row"><div><div class="patient-name">Devraj Pillai</div><div class="patient-sub">Inquiry – no response</div></div><span style="font-size:12px">26 May</span><span style="font-size:13px">Lead Follow-up Required</span><span style="font-size:12px;color:var(--danger)">⚠ Overdue</span><button class="action-btn">Send WhatsApp</button></div>
+      <div class="table-row"><div><div class="patient-name">Meera Joshi</div><div class="patient-sub">Post whitening care</div></div><span style="font-size:12px">28 May</span><span style="font-size:13px">Post-Treatment Check</span><span style="font-size:12px;color:var(--warning)">30 May</span><button class="action-btn">Send Message</button></div>
+      <div class="table-row"><div><div class="patient-name">Priya Sharma</div><div class="patient-sub">Aligner tray progress</div></div><span style="font-size:12px">20 May</span><span style="font-size:13px">Aligner Progress Check</span><span style="font-size:12px;color:var(--teal)">31 May</span><button class="action-btn">Schedule</button></div>
+      <div class="table-row"><div><div class="patient-name">Rahul Kapoor</div><div class="patient-sub">Pending consent form</div></div><span style="font-size:12px">29 May</span><span style="font-size:13px">Consent Form – Pending</span><span style="font-size:12px;color:var(--teal)">1 Jun</span><button class="action-btn">Send Form</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= CRM ======= -->
+<div class="page" id="page-crm">
+  <div style="margin-bottom:1.5rem"><h2 style="font-size:1.8rem">Patient CRM</h2><p style="color:var(--muted);font-size:14px">Full patient profiles, treatment history, and follow-up notes.</p></div>
+  <div class="crm-grid">
+    <div class="patient-list">
+      <div class="patient-list-header">Patients <span style="color:var(--muted);font-size:12px">28 total</span></div>
+      <div class="patient-item active" onclick="showPatient('priya')"><div class="pi-name">Priya Sharma</div><div class="pi-meta">Clear Aligners · Active</div></div>
+      <div class="patient-item" onclick="showPatient('rahul')"><div class="pi-name">Rahul Kapoor</div><div class="pi-meta">Smile Makeover · Consultation</div></div>
+      <div class="patient-item" onclick="showPatient('ananya')"><div class="pi-name">Ananya Trivedi</div><div class="pi-meta">Cosmetic Dentistry · Completed</div></div>
+      <div class="patient-item" onclick="showPatient('sahil')"><div class="pi-name">Sahil Mehta</div><div class="pi-meta">General Checkup · New</div></div>
+      <div class="patient-item" onclick="showPatient('neha')"><div class="pi-name">Neha Dixit</div><div class="pi-meta">Aligners · In Progress</div></div>
+      <div class="patient-item" onclick="showPatient('vikram')"><div class="pi-name">Vikram Nair</div><div class="pi-meta">Aligner Consult · Follow-up</div></div>
+      <div class="patient-item" onclick="showPatient('meera')"><div class="pi-name">Meera Joshi</div><div class="pi-meta">Whitening · Completed</div></div>
+    </div>
+    <div class="patient-detail" id="patientDetail">
+      <div class="detail-header">
+        <div class="avatar-lg" id="pd-avatar">PS</div>
+        <div style="flex:1">
+          <div style="font-size:1.2rem;font-family:var(--font-display);font-weight:600" id="pd-name">Priya Sharma</div>
+          <div style="font-size:13px;color:var(--muted)" id="pd-contact">+91 99887 76654 · priya@gmail.com</div>
+          <div style="margin-top:6px" id="pd-status"><span class="status-pill s-started">Treatment Started</span></div>
+        </div>
+      </div>
+      <div class="detail-grid" id="pd-grid">
+        <div class="detail-field"><div class="label">Age / Gender</div>28 yrs · Female</div>
+        <div class="detail-field"><div class="label">City</div>Lucknow, UP</div>
+        <div class="detail-field"><div class="label">First Visit</div>15 February 2025</div>
+        <div class="detail-field"><div class="label">Last Visit</div>20 May 2025</div>
+        <div class="detail-field"><div class="label">Next Appointment</div>30 May 2025 – 10:30 AM</div>
+        <div class="detail-field"><div class="label">Total Visits</div>5 visits</div>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Treatment Tags</div>
+      <div class="tag-row" id="pd-tags">
+        <span class="tag">Clear Aligners</span>
+        <span class="tag">Tray 4/12</span>
+        <span class="tag">Active Treatment</span>
+        <span class="tag">Progress Review Due</span>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Clinical Notes</div>
+      <div class="notes-box" id="pd-notes">Patient started clear aligner treatment on 15 Feb 2025. Currently on tray 4 of 12. Mild crowding in lower anteriors — responding well to treatment. IPR completed at tray 3. Next review at tray 6 scheduled for 30 May. Patient is compliant with wear time (22+ hrs/day). Slight discomfort reported on tray 4 — normal, monitored. No allergies or systemic conditions.</div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:1rem 0 8px">Timeline</div>
+      <div class="timeline" id="pd-timeline">
+        <div class="timeline-item"><div class="tl-dot"></div><div class="tl-date">20 May 2025</div><div>Aligner Tray 4 given · Progress photos taken</div></div>
+        <div class="timeline-item"><div class="tl-dot"></div><div class="tl-date">10 Apr 2025</div><div>Aligner Tray 3 given · IPR completed</div></div>
+        <div class="timeline-item"><div class="tl-dot"></div><div class="tl-date">5 Mar 2025</div><div>Aligner Tray 2 given · Fit verified</div></div>
+        <div class="timeline-item"><div class="tl-dot"></div><div class="tl-date">15 Feb 2025</div><div>Treatment started · Tray 1 fitted · Records taken</div></div>
+        <div class="timeline-item"><div class="tl-dot" style="background:var(--muted)"></div><div class="tl-date">2 Feb 2025</div><div>Free Smile Consultation · Aligner plan presented</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= REMINDERS ======= -->
+<div class="page" id="page-reminders">
+  <div style="margin-bottom:1.5rem"><h2 style="font-size:1.8rem">Reminder & Follow-up Automation</h2><p style="color:var(--muted);font-size:14px">Sample automated messages sent to patients at each stage of their journey.</p></div>
+  <div class="reminders-grid">
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Appointment Confirmation</span><span class="channel-badge ch-whatsapp">WhatsApp</span></div>
+      <div class="msg-bubble">Hi <strong>Priya</strong> 👋 Your appointment at <strong>Dental Care Clinic</strong> is confirmed!<br><br>📅 Date: Thursday, 30 May 2025<br>⏰ Time: 10:30 AM<br>📍 12, Swaroop Nagar, Kanpur<br>🦷 Service: Clear Aligner Progress Check<br><br>Please arrive 5 minutes early. Bring your current aligner trays.<br><br>Questions? Reply to this message or call +91 98765 00000. See you soon! 😊</div>
+      <div class="reminder-footer">Triggered: Immediately after booking · Sent to: Patient's WhatsApp</div>
+    </div>
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Appointment Reminder</span><span class="channel-badge ch-sms">SMS</span></div>
+      <div class="msg-bubble">Reminder: Your appointment at Dental Care Clinic is tomorrow (30 May) at 10:30 AM with Dr. Sharma.<br><br>📍 12, Swaroop Nagar, Kanpur<br><br>To reschedule, call +91 98765 00000. We look forward to seeing you!</div>
+      <div class="reminder-footer">Triggered: 24 hours before appointment · Sent to: Patient's mobile</div>
+    </div>
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Post-Consultation Follow-up</span><span class="channel-badge ch-whatsapp">WhatsApp</span></div>
+      <div class="msg-bubble">Hi <strong>Rahul</strong>, thank you for visiting Dental Care Clinic today! 😊<br><br>It was great meeting you. As discussed, here's a quick summary:<br>• Treatment: Smile Makeover Plan<br>• Estimated trays: 14<br>• Next step: Confirm your treatment start date<br><br>Ready to proceed? Reply YES or call us at +91 98765 00000. We'll get your journey started! ✨</div>
+      <div class="reminder-footer">Triggered: 2 hours after consultation · Sent to: Patient's WhatsApp</div>
+    </div>
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Aligner Progress Check</span><span class="channel-badge ch-whatsapp">WhatsApp</span></div>
+      <div class="msg-bubble">Hi <strong>Priya</strong> 🦷 Quick check-in from Dr. Sharma's team!<br><br>You're on <strong>Tray 4</strong> — great progress! 🎉<br><br>Are you wearing your aligners for 22+ hours daily? Any discomfort or fit issues?<br><br>Your next progress visit is on <strong>31 May at 2:00 PM</strong>. Reply to confirm or to reschedule.<br><br>Keep it up — you're almost halfway there! 💪</div>
+      <div class="reminder-footer">Triggered: 2 weeks after tray change · Aligner patients only</div>
+    </div>
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Missed Appointment Callback</span><span class="channel-badge ch-sms">SMS</span></div>
+      <div class="msg-bubble">Hi Vikram, we missed you at your appointment today at Dental Care Clinic!<br><br>No worries — please call us at +91 98765 00000 to reschedule at a convenient time. We'd love to help you continue your treatment journey. 🦷</div>
+      <div class="reminder-footer">Triggered: 1 hour after missed appointment · Auto-scheduled callback</div>
+    </div>
+    <div class="reminder-card">
+      <div class="reminder-header"><span class="reminder-type">Post-Treatment Follow-up</span><span class="channel-badge ch-email">Email</span></div>
+      <div class="msg-bubble"><strong>Subject:</strong> Your Teeth Whitening Care Tips — Dental Care Clinic 🦷<br><br>Hi Meera,<br><br>Thank you for your whitening treatment today! Here are your post-care tips:<br>• Avoid tea, coffee, and red wine for 48 hours<br>• Use the sensitivity toothpaste provided<br>• Schedule your next cleaning in 6 months<br><br>Any concerns? Reply to this email or WhatsApp us.<br><br>Warm regards,<br>Dr. Sharma & Team</div>
+      <div class="reminder-footer">Triggered: Same day as treatment · Sent to: Patient email</div>
+    </div>
+  </div>
+  <div style="background:var(--teal-light);border:1.5px solid var(--teal);border-radius:var(--radius);padding:1.5rem;margin-top:1rem">
+    <h3 style="color:var(--teal-dark);margin-bottom:10px">📊 Automation Impact at a Glance</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;font-size:13px">
+      <div style="text-align:center;background:white;border-radius:var(--radius-sm);padding:1rem"><div style="font-size:1.6rem;font-weight:700;color:var(--teal);font-family:var(--font-display)">85%</div><div style="color:var(--muted)">No-show reduction</div></div>
+      <div style="text-align:center;background:white;border-radius:var(--radius-sm);padding:1rem"><div style="font-size:1.6rem;font-weight:700;color:var(--teal);font-family:var(--font-display)">68%</div><div style="color:var(--muted)">Lead-to-booking rate</div></div>
+      <div style="text-align:center;background:white;border-radius:var(--radius-sm);padding:1rem"><div style="font-size:1.6rem;font-weight:700;color:var(--teal);font-family:var(--font-display)">3 hrs</div><div style="color:var(--muted)">Staff time saved/day</div></div>
+      <div style="text-align:center;background:white;border-radius:var(--radius-sm);padding:1rem"><div style="font-size:1.6rem;font-weight:700;color:var(--teal);font-family:var(--font-display)">94%</div><div style="color:var(--muted)">Patient satisfaction</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= ANALYTICS ======= -->
+<div class="page" id="page-analytics">
+  <div style="margin-bottom:1.5rem"><h2 style="font-size:1.8rem">Analytics & Reports</h2><p style="color:var(--muted);font-size:14px">Monthly snapshot · May 2025 · Dental Care Clinic, Kanpur</p></div>
+  <div class="analytics-kpi">
+    <div class="a-kpi"><div class="num">142</div><div class="lab">Total Appointments (May)</div></div>
+    <div class="a-kpi"><div class="num">38</div><div class="lab">New Patients This Month</div></div>
+    <div class="a-kpi"><div class="num" style="color:var(--warning)">11</div><div class="lab">Aligner Consultations</div></div>
+    <div class="a-kpi"><div class="num" style="color:var(--danger)">6</div><div class="lab">Pending Follow-ups</div></div>
+    <div class="a-kpi"><div class="num">72%</div><div class="lab">Consult → Treatment Conversion</div></div>
+    <div class="a-kpi"><div class="num">₹2.4L</div><div class="lab">Revenue Estimate (May)</div></div>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <h3>Most Requested Services</h3>
+      <div class="bar-chart">
+        <div class="bar-row"><span class="bar-label">Clear Aligners</span><div class="bar-track"><div class="bar-fill" style="width:82%">41</div></div></div>
+        <div class="bar-row"><span class="bar-label">Dental Cleaning</span><div class="bar-track"><div class="bar-fill" style="width:60%">30</div></div></div>
+        <div class="bar-row"><span class="bar-label">Smile Consultation</span><div class="bar-track"><div class="bar-fill" style="width:50%">25</div></div></div>
+        <div class="bar-row"><span class="bar-label">Cosmetic Dentistry</span><div class="bar-track"><div class="bar-fill" style="width:36%">18</div></div></div>
+        <div class="bar-row"><span class="bar-label">General Checkup</span><div class="bar-track"><div class="bar-fill" style="width:28%">14</div></div></div>
+        <div class="bar-row"><span class="bar-label">Whitening</span><div class="bar-track"><div class="bar-fill" style="width:18%">9</div></div></div>
+        <div class="bar-row"><span class="bar-label">Follow-up Care</span><div class="bar-track"><div class="bar-fill" style="width:10%">5</div></div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Lead Sources This Month</h3>
+      <div class="donut-wrap">
+        <svg class="donut" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#E6F4F2" stroke-width="18"/>
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#0D7A6F" stroke-width="18" stroke-dasharray="113 170" stroke-dashoffset="-42" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#1A9E8F" stroke-width="18" stroke-dasharray="79 204" stroke-dashoffset="-155" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#C8963A" stroke-width="18" stroke-dasharray="57 226" stroke-dashoffset="-234" transform="rotate(-90 60 60)"/>
+          <circle cx="60" cy="60" r="45" fill="none" stroke="#D8E4E2" stroke-width="18" stroke-dasharray="34 249" transform="rotate(-90 60 60)" stroke-dashoffset="-291"/>
+          <text x="60" y="65" text-anchor="middle" font-size="14" font-weight="700" fill="#0D7A6F">38</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#0D7A6F"></div><span>Instagram – 40%</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#1A9E8F"></div><span>Google – 28%</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#C8963A"></div><span>Referral – 20%</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D8E4E2"></div><span>Other – 12%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Appointment Conversion Funnel</h3>
+      <div class="funnel">
+        <div class="funnel-row"><div class="funnel-bar" style="width:100%;background:#0D7A6F">56 Inquiries Received</div></div>
+        <div class="funnel-row"><div class="funnel-bar" style="width:82%;background:#1A9E8F">46 Consultations Booked</div></div>
+        <div class="funnel-row"><div class="funnel-bar" style="width:58%;background:#3DB8A8">33 Consultations Attended</div></div>
+        <div class="funnel-row"><div class="funnel-bar" style="width:43%;background:#5DCFBF">24 Treatments Started</div></div>
+        <div class="funnel-row"><div class="funnel-bar" style="width:25%;background:#9FE1D8">14 Completed This Month</div></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <h3>Monthly Revenue Trend (₹ Lakh)</h3>
+      <div class="trend-chart">
+        <div class="trend-bar" style="height:48%"><span class="tip">1.4</span></div>
+        <div class="trend-bar" style="height:55%"><span class="tip">1.6</span></div>
+        <div class="trend-bar" style="height:62%"><span class="tip">1.8</span></div>
+        <div class="trend-bar" style="height:70%"><span class="tip">2.0</span></div>
+        <div class="trend-bar" style="height:72%"><span class="tip">2.1</span></div>
+        <div class="trend-bar" style="height:75%"><span class="tip">2.2</span></div>
+        <div class="trend-bar" style="height:80%"><span class="tip">2.3</span></div>
+        <div class="trend-bar" style="height:85%"><span class="tip">2.4</span></div>
+      </div>
+      <div class="trend-labels"><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span></div>
+    </div>
+  </div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">
+    <h3 style="margin-bottom:1rem">Key Insights</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;font-size:13px">
+      <div style="background:var(--teal-light);border-radius:var(--radius-sm);padding:1rem"><strong style="color:var(--teal-dark)">📈 Growth:</strong> Revenue up 18% month-over-month. Clear aligner segment growing fastest.</div>
+      <div style="background:var(--warning-bg);border-radius:var(--radius-sm);padding:1rem"><strong style="color:#7A5310">⚠️ Attention:</strong> 6 follow-ups overdue. Timely callbacks can recover 40% of these as bookings.</div>
+      <div style="background:var(--teal-light);border-radius:var(--radius-sm);padding:1rem"><strong style="color:var(--teal-dark)">💡 Opportunity:</strong> Instagram driving 40% of new leads. Doubling content frequency could add 8–12 inquiries/month.</div>
+      <div style="background:var(--gold-light);border-radius:var(--radius-sm);padding:1rem"><strong style="color:#7A5310">🎯 Best Performer:</strong> Clear Aligner Consultation has highest conversion rate at 78% consult-to-treatment.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======= VALUE ======= -->
+<div class="page" id="page-value">
+  <div class="value-hero">
+    <p style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.6;margin-bottom:8px">For Dentists, Clinic Owners & Aligner Mentors</p>
+    <h2>How This Platform Can Transform Your Practice</h2>
+    <p>A simple digital system that replaces manual follow-ups, scattered WhatsApp messages, and missed leads — with one professional, organised flow.</p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <button class="btn-primary" onclick="showPage('booking')">📅 Try Booking Flow</button>
+      <button class="btn-outline" onclick="showPage('admin')">🏥 Explore Dashboard</button>
+    </div>
+  </div>
+
+  <div class="benefits-grid" style="margin-bottom:2rem">
+    <div class="benefit-card"><div class="benefit-icon">⚡</div><h4>Faster Appointment Booking</h4><p>Patients book online 24/7 — no phone tag, no WhatsApp delays. You wake up to confirmed appointments.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">🔁</div><h4>Better Follow-up Rate</h4><p>Automated reminders for missed appointments, post-consultation follow-ups, and aligner progress checks — nothing falls through the cracks.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">📊</div><h4>Improved Lead Tracking</h4><p>Every inquiry is captured, tagged by treatment interest, and tracked through the pipeline — so your team always knows what to do next.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">🦷</div><h4>Aligner Patient Management</h4><p>Track tray progress, set milestone reminders, and manage every clear aligner patient in one place. Ideal for high-volume aligner clinics.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">📉</div><h4>Reduced Manual Coordination</h4><p>Staff spend less time on calls and WhatsApp coordination. The system handles confirmations, reminders, and follow-up messages automatically.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">💼</div><h4>Professional Online Presence</h4><p>A clean, branded website and booking page signals trust and quality — helping you attract patients who are serious about treatment.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">🎯</div><h4>Higher Conversion Rate</h4><p>With structured follow-ups and timely outreach, consultation-to-treatment conversion can improve from ~35% to 65–75%.</p></div>
+    <div class="benefit-card"><div class="benefit-icon">📱</div><h4>Works on Every Device</h4><p>Patients book on mobile. Staff manage from desktop. Everything is responsive and fast — no app install needed.</p></div>
+  </div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem">
+    <h3 style="font-size:1.3rem;margin-bottom:1.5rem">Before vs. After: The Real Difference</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+      <div style="background:var(--danger-bg);border-radius:var(--radius);padding:1.5rem">
+        <h4 style="color:var(--danger);margin-bottom:1rem;font-size:14px">❌ Without a System</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--charcoal)">
+          <div>• Appointments tracked in a notebook or WhatsApp</div>
+          <div>• Leads forgotten if not followed up immediately</div>
+          <div>• Staff manually calling patients for reminders</div>
+          <div>• Aligner progress tracked only at visits</div>
+          <div>• No visibility into monthly revenue or conversion</div>
+          <div>• Missed appointments go unaddressed</div>
+          <div>• Patient records scattered across Excel, WhatsApp, paper</div>
+        </div>
+      </div>
+      <div style="background:var(--success-bg);border-radius:var(--radius);padding:1.5rem">
+        <h4 style="color:var(--teal-dark);margin-bottom:1rem;font-size:14px">✅ With This Platform</h4>
+        <div style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--charcoal)">
+          <div>• Patients book online, staff see confirmed slots instantly</div>
+          <div>• Every lead is captured and tracked automatically</div>
+          <div>• Automated WhatsApp/SMS reminders before appointments</div>
+          <div>• Aligner patients tracked tray-by-tray with check-ins</div>
+          <div>• Monthly analytics with revenue, leads, and conversions</div>
+          <div>• Missed appointment triggers an automatic callback</div>
+          <div>• Full patient profile with history, notes, and tags</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-bottom:2rem">
+    <h3 style="font-size:1.3rem;margin-bottom:1rem">ROI Snapshot — Sample Dental Clinic (Monthly)</h3>
+    <div>
+      <div class="roi-row" style="border-color:rgba(13,122,111,0.15)"><span style="color:var(--muted)">Extra bookings from better online presence (est.)</span><strong style="color:var(--teal)">+8 patients/month</strong></div>
+      <div class="roi-row" style="border-color:rgba(13,122,111,0.15)"><span style="color:var(--muted)">Recovered missed appointments via auto-callback</span><strong style="color:var(--teal)">+4 patients/month</strong></div>
+      <div class="roi-row" style="border-color:rgba(13,122,111,0.15)"><span style="color:var(--muted)">Improved consultation conversion (from 35% → 72%)</span><strong style="color:var(--teal)">+11 treatments started</strong></div>
+      <div class="roi-row" style="border-color:rgba(13,122,111,0.15)"><span style="color:var(--muted)">Staff time saved on manual coordination</span><strong style="color:var(--teal)">~3 hours/day</strong></div>
+      <div class="roi-row" style="border-color:rgba(13,122,111,0.15)"><span style="color:var(--muted)">Additional estimated monthly revenue</span><strong style="color:var(--teal)">₹60,000 – ₹1,00,000</strong></div>
+      <div class="roi-row"><span style="color:var(--muted)">Platform investment estimate (monthly)</span><strong style="color:var(--muted)">₹3,000 – ₹8,000</strong></div>
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(135deg,#0D7A6F,#085548);border-radius:var(--radius-lg);padding:3rem;text-align:center;color:white">
+    <h2 style="font-size:2rem;margin-bottom:12px">Ready to Build This for Your Clinic?</h2>
+    <p style="opacity:.8;max-width:520px;margin:0 auto 2rem;font-size:15px">This is a proof of concept. We can build a fully working version customised for your clinic — branded, integrated with WhatsApp, Google Calendar, and your clinic's workflow.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="showPage('booking')">📅 Book a Discovery Call</button>
+      <button class="btn-outline">💬 WhatsApp Us</button>
+    </div>
+    <p style="margin-top:1.5rem;font-size:12px;opacity:.5">Powered by Pinnacle Route · AI & Automation for Healthcare Practices</p>
+  </div>
+</div>
+
+<script>
+const patients={
+  priya:{avatar:'PS',name:'Priya Sharma',contact:'+91 99887 76654 · priya@gmail.com',status:'<span class="status-pill s-started">Treatment Started</span>',fields:[['Age / Gender','28 yrs · Female'],['City','Lucknow, UP'],['First Visit','15 February 2025'],['Last Visit','20 May 2025'],['Next Appointment','30 May 2025 – 10:30 AM'],['Total Visits','5 visits']],tags:['Clear Aligners','Tray 4/12','Active Treatment','Progress Review Due'],notes:'Patient started clear aligner treatment on 15 Feb 2025. Currently on tray 4 of 12. Mild crowding in lower anteriors — responding well. IPR completed at tray 3. Next review at tray 6 on 30 May. Compliant with wear time (22+ hrs/day). Slight discomfort on tray 4 — normal, monitored.',timeline:[['20 May 2025','Aligner Tray 4 given · Progress photos taken'],['10 Apr 2025','Aligner Tray 3 given · IPR completed'],['5 Mar 2025','Aligner Tray 2 given · Fit verified'],['15 Feb 2025','Treatment started · Tray 1 fitted · Records taken'],['2 Feb 2025','Free Smile Consultation · Aligner plan presented']]},
+  rahul:{avatar:'RK',name:'Rahul Kapoor',contact:'+91 88776 54321 · rahul@kapoor.com',status:'<span class="status-pill s-new">Consultation Booked</span>',fields:[['Age / Gender','32 yrs · Male'],['City','Kanpur, UP'],['First Visit','28 May 2025'],['Last Visit','28 May 2025'],['Next Appointment','30 May 2025 – 11:30 AM'],['Total Visits','1 visit']],tags:['Smile Makeover','New Patient','Consent Pending'],notes:'First visit for smile consultation. Interested in smile makeover — mild spacing in upper arch, slight discolouration. Treatment plan: 14-tray aligner + whitening post-treatment. Consent form sent via email. Pending confirmation to start.',timeline:[['28 May 2025','Smile Consultation completed · Plan presented'],['25 May 2025','Online inquiry received via Instagram']]},
+  ananya:{avatar:'AT',name:'Ananya Trivedi',contact:'+91 77665 43210 · ananya@email.com',status:'<span class="status-pill s-completed">Completed</span>',fields:[['Age / Gender','26 yrs · Female'],['City','Agra, UP'],['First Visit','10 Jan 2025'],['Last Visit','22 Apr 2025'],['Next Appointment','Nov 2025 – Annual review'],['Total Visits','6 visits']],tags:['Cosmetic Dentistry','Whitening','Veneers','Completed'],notes:'Completed smile makeover treatment. 4 veneers on upper anteriors + full whitening. Patient extremely satisfied. Follow-up scheduled in November for annual review and cleaning. No complaints post-treatment.',timeline:[['22 Apr 2025','Final review — treatment completed'],['5 Mar 2025','Veneer placement session 2'],['10 Feb 2025','Veneer placement session 1'],['20 Jan 2025','Treatment plan approved · Shade selection'],['10 Jan 2025','Initial cosmetic consultation']]},
+  sahil:{avatar:'SM',name:'Sahil Mehta',contact:'+91 99001 22334 · sahil.mehta@gmail.com',status:'<span class="status-pill s-new">New Patient</span>',fields:[['Age / Gender','24 yrs · Male'],['City','Delhi (visiting Kanpur)'],['First Visit','Upcoming – 31 May 2025'],['Last Visit','N/A'],['Next Appointment','31 May 2025 – 9:30 AM'],['Total Visits','0 visits']],tags:['General Checkup','New Lead','Booked Online'],notes:'New patient, booked online. General checkup and cleaning. No specific complaints mentioned. Visiting Kanpur for 1 week — prefers morning appointment. Will assess for any cosmetic treatment interest during visit.',timeline:[['29 May 2025','Appointment booked online via website']]},
+  neha:{avatar:'ND',name:'Neha Dixit',contact:'+91 98800 11223 · neha.dixit@email.com',status:'<span class="status-pill s-started">Treatment In Progress</span>',fields:[['Age / Gender','30 yrs · Female'],['City','Kanpur, UP'],['First Visit','1 Mar 2025'],['Last Visit','15 May 2025'],['Next Appointment','31 May 2025 – 2:00 PM'],['Total Visits','4 visits']],tags:['Clear Aligners','Tray 6/16','Mid-Treatment'],notes:'Mid-treatment aligner patient. Tray 6 of 16. Good compliance. Minor attachment on tooth #13 placed at tray 5. Next review at tray 8. Patient reports good experience with the digital monitoring approach.',timeline:[['15 May 2025','Tray 6 given · Attachment placed'],['2 Apr 2025','Tray 4 & 5 given · Progress good'],['10 Mar 2025','Tray 2 & 3 given'],['1 Mar 2025','Treatment started · Tray 1 fitted']]},
+  vikram:{avatar:'VN',name:'Vikram Nair',contact:'+91 90022 11334 · vikram.nair@email.com',status:'<span class="status-pill s-followup">Follow-up Required</span>',fields:[['Age / Gender','35 yrs · Male'],['City','Kanpur, UP'],['First Visit','20 May 2025'],['Last Visit','20 May 2025'],['Next Appointment','TBD – Missed last slot'],['Total Visits','1 visit']],tags:['Aligner Consult','Missed Appointment','Callback Pending'],notes:'Attended initial aligner consultation on 20 May. Showed strong interest in clear aligners for mild crowding. Second appointment on 27 May was missed — no call ahead. Automated callback message sent. Team to follow up and rebook.',timeline:[['27 May 2025','Appointment missed — auto-callback sent'],['20 May 2025','Clear aligner consultation completed · Keen to proceed']]},
+  meera:{avatar:'MJ',name:'Meera Joshi',contact:'+91 91111 00223 · meera.j@gmail.com',status:'<span class="status-pill s-completed">Completed</span>',fields:[['Age / Gender','29 yrs · Female'],['City','Kanpur, UP'],['First Visit','5 May 2025'],['Last Visit','28 May 2025'],['Next Appointment','Nov 2025 – Review'],['Total Visits','3 visits']],tags:['Teeth Whitening','Completed','Post-Care Sent'],notes:'3-session whitening treatment completed successfully. Post-care guide sent via email. Sensitivity noted during treatment — managed with desensitising gel. Patient delighted with results. Referred 2 friends to the clinic already.',timeline:[['28 May 2025','Final whitening session · Post-care email sent'],['15 May 2025','Whitening session 2 · Sensitivity managed'],['5 May 2025','Initial session + baseline photos']]},
+};
+
+function showPatient(id){
+  const p=patients[id];
+  document.querySelectorAll('.patient-item').forEach(el=>el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('pd-avatar').textContent=p.avatar;
+  document.getElementById('pd-name').textContent=p.name;
+  document.getElementById('pd-contact').textContent=p.contact;
+  document.getElementById('pd-status').innerHTML=p.status;
+  document.getElementById('pd-grid').innerHTML=p.fields.map(f=>`<div class="detail-field"><div class="label">${f[0]}</div>${f[1]}</div>`).join('');
+  document.getElementById('pd-tags').innerHTML=p.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+  document.getElementById('pd-notes').textContent=p.notes;
+  document.getElementById('pd-timeline').innerHTML=p.timeline.map((t,i)=>`<div class="timeline-item"><div class="tl-dot" ${i===p.timeline.length-1?'style="background:var(--muted)"':''}></div><div class="tl-date">${t[0]}</div><div>${t[1]}</div></div>`).join('');
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const pages=['website','booking','inquiry','admin','crm','reminders','analytics','value'];
+    t.classList.toggle('active',pages[i]===id);
+  });
+  const sel=document.querySelector('.nav-mobile');
+  if(sel)sel.value=id;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showAdminTab(tab,btn){
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('admin-'+tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+let selectedSlot='';
+function selectSlot(el,time){
+  document.querySelectorAll('.slot:not(.taken)').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot=time;
+  updateBookingPreview();
+}
+
+function updateBookingPreview(){
+  const svc=document.getElementById('bk-service').value;
+  const dt=document.getElementById('bk-date').value;
+  if(svc) document.getElementById('prev-service').innerHTML=`<span>Service</span><span>${svc}</span>`;
+  if(dt){
+    const d=new Date(dt);
+    document.getElementById('prev-date').innerHTML=`<span>Date</span><span>${d.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'})}</span>`;
+  }
+  if(selectedSlot) document.getElementById('prev-slot').innerHTML=`<span>Time</span><span>${selectedSlot}</span>`;
+}
+
+function submitBooking(){
+  const fn=document.getElementById('bk-fname').value;
+  const svc=document.getElementById('bk-service').value;
+  if(!fn||!svc||!selectedSlot){
+    alert('Please fill in your name, select a service, and choose a time slot.');return;
+  }
+  document.getElementById('bookingSuccess').style.display='block';
+  document.getElementById('bookingSuccess').innerHTML=`
+    <div class="check">✓</div>
+    <div style="font-size:1rem;font-weight:700;font-family:var(--font-display);color:var(--teal);margin-bottom:6px">Appointment Confirmed!</div>
+    <div style="font-size:13px;color:var(--muted)">Hi <strong>${fn}</strong>! Your <strong>${svc}</strong> on <strong>${selectedSlot}</strong> is booked. A WhatsApp confirmation has been sent. Dr. Sharma's team will contact you shortly.</div>
+  `;
+  document.getElementById('bookingSuccess').scrollIntoView({behavior:'smooth'});
+}
+
+// Set today's date as default
+document.getElementById('bk-date').valueAsDate=new Date();
+updateBookingPreview();
+</script>
+</body>
+</html>
